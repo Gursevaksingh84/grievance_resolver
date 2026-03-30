@@ -30,6 +30,5 @@ orjson==3.11.5
 tenacity==8.5.0
 structlog==23.2.0
 tqdm==4.67.1
-
-
+pytz==2024.1
 
