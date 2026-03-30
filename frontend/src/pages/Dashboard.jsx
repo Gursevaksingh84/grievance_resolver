@@ -95,21 +95,21 @@ const Dashboard = () => {
         setStatusNotes("");
         alert(
           t("statusUpdatedSuccess") ||
-            "Status updated successfully! Email notification sent."
+          "Status updated successfully! Email notification sent."
         );
       } else {
         alert(
           response.data.error ||
-            t("statusUpdateFailed") ||
-            "Failed to update status"
+          t("statusUpdateFailed") ||
+          "Failed to update status"
         );
       }
     } catch (err) {
       alert(
         err.response?.data?.error ||
-          err.message ||
-          t("statusUpdateFailed") ||
-          "Failed to update status"
+        err.message ||
+        t("statusUpdateFailed") ||
+        "Failed to update status"
       );
       console.error("Status update error:", err);
     } finally {
@@ -384,8 +384,8 @@ const Dashboard = () => {
                       <span className="meta-value">
                         {complaint.responsible_department
                           ? complaint.responsible_department
-                              .replace(/_/g, " ")
-                              .replace(/\b\w/g, (l) => l.toUpperCase())
+                            .replace(/_/g, " ")
+                            .replace(/\b\w/g, (l) => l.toUpperCase())
                           : "N/A"}
                       </span>
                     </div>

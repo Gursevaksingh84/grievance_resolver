@@ -17,15 +17,15 @@ import './App.css'
 
 function App() {
   console.log('📱 App component rendering...')
-  
+
   // Check if Supabase is configured
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-  
+
   if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('⚠️ Supabase not configured. Some features may not work.')
   }
-  
+
   return (
     <ErrorBoundary>
       <AuthProvider>
@@ -36,53 +36,53 @@ function App() {
               <Route path="*" element={
                 <Layout>
                   <Routes>
-                    <Route 
-                      path="/" 
+                    <Route
+                      path="/"
                       element={
                         <ProtectedRoute>
                           <Home />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/status/:id?" 
+                    <Route
+                      path="/status/:id?"
                       element={
                         <ProtectedRoute>
                           <ComplaintStatus />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/dashboard" 
+                    <Route
+                      path="/dashboard"
                       element={
                         <ProtectedRoute requireAdmin={true}>
                           <Dashboard />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/heatmap" 
+                    <Route
+                      path="/heatmap"
                       element={
                         <ProtectedRoute>
                           <Heatmap />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/forums" 
+                    <Route
+                      path="/forums"
                       element={
                         <ProtectedRoute>
                           <Forums />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
-                    <Route 
-                      path="/forum/:complaintId" 
+                    <Route
+                      path="/forum/:complaintId"
                       element={
                         <ProtectedRoute>
                           <Forum />
                         </ProtectedRoute>
-                      } 
+                      }
                     />
                   </Routes>
                   <Chatbot />

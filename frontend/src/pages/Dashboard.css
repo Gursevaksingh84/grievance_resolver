@@ -156,7 +156,7 @@
   border-bottom: 2px solid var(--border);
 }
 
-.dashboard-header > div:first-child {
+.dashboard-header>div:first-child {
   flex: 1;
 }
 
@@ -580,47 +580,46 @@
   .complaints-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .complaint-card-header {
     padding: 1rem;
   }
-  
+
   .complaint-card-body {
     padding: 1rem;
   }
-  
+
   .complaint-card-footer {
     padding: 1rem;
   }
-  
+
   .complaint-id-value {
     font-size: 0.875rem;
   }
-  
+
   .meta-label {
     min-width: 70px;
     font-size: 0.8125rem;
   }
-  
+
   .complaints-table {
     font-size: 0.75rem;
   }
-  
+
   .complaints-table th,
   .complaints-table td {
     padding: 0.5rem;
   }
-  
+
   .status-edit-form {
     min-width: 150px;
   }
-  
+
   .filters {
     width: 100%;
   }
-  
+
   .filter-select {
     flex: 1;
   }
 }
-

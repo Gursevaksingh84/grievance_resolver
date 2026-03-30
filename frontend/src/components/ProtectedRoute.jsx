@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const location = useLocation()
-  
+
   // Get auth context - hooks must be called unconditionally
   const auth = useAuth()
   const user = auth?.user || null
@@ -13,11 +13,11 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
 
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        minHeight: '50vh' 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '50vh'
       }}>
         <div>Loading...</div>
       </div>
