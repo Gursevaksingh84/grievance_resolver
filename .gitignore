@@ -16,6 +16,8 @@ Thumbs.db
 *.swp
 *.swo
 node_modules/
+dist/
+frontend/dist/
 
 # Environment variables
 .env
