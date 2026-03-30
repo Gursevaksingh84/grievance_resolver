@@ -33,18 +33,3 @@ tqdm==4.67.1
 
 
 
-jupyter
-jupyterlab
-ipykernel
-notebook
-matplotlib
-black
-flake8
-pytest
-mypy
-pygame
-tensorflow
-keras
-faiss-cpu
-pandas
-numpy
