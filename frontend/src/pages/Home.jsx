@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import ComplaintForm from '../components/ComplaintForm'
 import MapPicker from '../components/MapPicker'
 import SuccessMessage from '../components/SuccessMessage'
 import { useTranslation } from '../hooks/useTranslation'
+import { useAuth } from '../contexts/AuthContext'
 import './Home.css'
 
 const Home = () => {
   const [submittedComplaint, setSubmittedComplaint] = useState(null)
   const { t } = useTranslation()
+  const auth = useAuth()
+  const isAdmin = auth?.isAdmin || false
+
+  // Redirect admin users to the Dashboard
+  if (isAdmin) {
+    return <Navigate to="/dashboard" replace />
+  }
 
   const handleSuccess = (complaint) => {
     setSubmittedComplaint(complaint)
