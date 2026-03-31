@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Loader2, Send, Camera, ImagePlus, X } from "lucide-react";
 import { useTranslation } from "../hooks/useTranslation";
@@ -10,7 +10,7 @@ const API_BASE_URL = API_URL;
 const MAX_PHOTOS = 3;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const ComplaintForm = ({ onSuccess }) => {
+const ComplaintForm = ({ onSuccess, mapLocation }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     description: "",
@@ -35,6 +35,23 @@ const ComplaintForm = ({ onSuccess }) => {
 
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+
+  // Auto-fill location fields when map location is selected
+  useEffect(() => {
+    if (mapLocation) {
+      setFormData((prev) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          state: mapLocation.state || prev.location.state,
+          city: mapLocation.city || prev.location.city,
+          district: mapLocation.district || prev.location.district,
+          pincode: mapLocation.pincode || prev.location.pincode,
+          address: mapLocation.address || prev.location.address,
+        },
+      }));
+    }
+  }, [mapLocation]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

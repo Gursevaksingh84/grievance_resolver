@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Navigate } from 'react-router-dom'
 import ComplaintForm from '../components/ComplaintForm'
 import MapPicker from '../components/MapPicker'
@@ -9,6 +9,7 @@ import './Home.css'
 
 const Home = () => {
   const [submittedComplaint, setSubmittedComplaint] = useState(null)
+  const [mapLocation, setMapLocation] = useState(null)
   const { t } = useTranslation()
   const auth = useAuth()
   const isAdmin = auth?.isAdmin || false
@@ -24,6 +25,10 @@ const Home = () => {
 
   const handleReset = () => {
     setSubmittedComplaint(null)
+  }
+
+  const handleMapLocationSelect = (locationData) => {
+    setMapLocation(locationData)
   }
 
   if (submittedComplaint) {
@@ -45,10 +50,10 @@ const Home = () => {
       </div>
       <div className="home-content">
         <div className="form-section">
-          <ComplaintForm onSuccess={handleSuccess} />
+          <ComplaintForm onSuccess={handleSuccess} mapLocation={mapLocation} />
         </div>
         <div className="map-section">
-          <MapPicker onLocationSelect={(loc) => console.log('Location selected:', loc)} />
+          <MapPicker onLocationSelect={handleMapLocationSelect} />
         </div>
       </div>
     </div>
@@ -56,4 +61,3 @@ const Home = () => {
 }
 
 export default Home
-
