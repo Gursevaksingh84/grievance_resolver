@@ -650,12 +650,22 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
     const attachmentsSource =
         complaint.attachments ||
         complaint.images ||
-        complaint.image_urls ||
+        complaint.imageurls ||
+        complaint.imageUrls ||
         [];
 
     const attachments = Array.isArray(attachmentsSource)
-        ? attachmentsSource.filter(Boolean)
-        : [];
+        ? attachmentsSource
+            .map((item) => {
+                if (typeof item === "string") return item;
+                if (item?.url) return item.url;
+                if (item?.src) return item.src;
+                return null;
+            })
+            .filter(Boolean)
+        : typeof attachmentsSource === "string"
+            ? [attachmentsSource]
+            : [];
 
     const allowed = ALLOWED_TRANSITIONS[complaint.status] || [];
     const isClosed = complaint.status === "closed";
@@ -751,6 +761,43 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
                         <div className="detail-section-title" style={{ marginBottom: "0.625rem" }}>Complaint Description</div>
                         <div className="detail-desc">{complaint.description || "No description provided."}</div>
                     </div>
+
+                    {attachments.length > 0 && (
+                        <>
+                            <div className="detail-section-title" style={{ marginBottom: "0.625rem" }}>
+                                Attachments ({attachments.length})
+                            </div>
+
+                            <div className="detail-images-grid">
+                                {attachments.map((img, index) => (
+                                    <div key={index} className="detail-image-wrap">
+                                        <button
+                                            type="button"
+                                            className="detail-image-card"
+                                            onClick={() => setPreviewImage(img)}
+                                        >
+                                            <img
+                                                src={img}
+                                                alt={`Complaint attachment ${index + 1}`}
+                                                className="detail-image"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                }}
+                                            />
+                                        </button>
+                                        <a
+                                            href={img}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="detail-image-open"
+                                        >
+                                            Open image
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
 
                     {previewImage && (
                         <div
