@@ -58,16 +58,27 @@ class ComplaintController:
             if not complaint:
                 raise HTTPException(status_code=404, detail="Complaint not found after creation")
             
-            # Send notification in background
-            if background_tasks and complaint.get("citizen_email"):
-                background_tasks.add_task(
-                    notification_service.send_complaint_submission_notification,
-                    complaint_id=complaint_id,
-                    citizen_email=complaint.get("citizen_email"),
-                    citizen_name=complaint.get("citizen_name", "Citizen"),
-                    department=complaint.get("responsible_department", "Department"),
-                    sla_deadline=complaint.get("sla_deadline", "")
-                )
+            # Send notification email
+            citizen_email = complaint.get("citizen_email")
+            logger.info("Email notification check", 
+                       citizen_email=citizen_email, 
+                       complaint_id=complaint_id,
+                       has_background_tasks=bool(background_tasks))
+            
+            if citizen_email:
+                try:
+                    email_result = notification_service.send_complaint_submission_notification(
+                        complaint_id=complaint_id,
+                        citizen_email=citizen_email,
+                        citizen_name=complaint.get("citizen_name", "Citizen"),
+                        department=complaint.get("responsible_department", "Department"),
+                        sla_deadline=complaint.get("sla_deadline", "")
+                    )
+                    logger.info("Email notification result", result=email_result)
+                except Exception as email_err:
+                    logger.error("Email notification failed", error=str(email_err))
+            else:
+                logger.warning("No citizen email found, skipping notification")
             
             # Format response
             return ComplaintSubmissionView.format(complaint)
