@@ -4,7 +4,7 @@ __pycache__/
 *.so
 .Python
 venv/
-ENV/\
+ENV/
 env/
 .venv/
 uploads/

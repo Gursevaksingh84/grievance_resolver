@@ -156,7 +156,14 @@ export const translations = {
     resolutionRate: 'Resolution Rate',
     retry: 'Retry',
     
-    // Forum
+    // Forums
+    forumsTitle: 'Community Forums',
+    forumsSubtitle: 'Discover trending complaints and join discussions. Upvote issues that matter to you.',
+    trendingComplaints: 'Trending Complaints',
+    noTrendingComplaints: 'No Trending Complaints Yet',
+    noTrendingComplaintsDesc: 'Be the first to start a discussion! File a complaint to get started.',
+    
+    // Forum single
     forumTitle: 'Community Forum',
     forumSubtitle: 'Discuss and vote on this complaint. Similar incidents can upvote to increase priority.',
     forumLoading: 'Loading forum...',
