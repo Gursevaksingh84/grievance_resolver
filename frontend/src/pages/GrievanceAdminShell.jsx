@@ -728,7 +728,7 @@ const DashboardPage = ({ metrics, complaints, agentFeed, loading, onNavigateComp
                     <span className="page-meta-dot" />
                     <span>Live data · {now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
                     <span className="page-meta-dot" />
-                    <span className="mock-badge">MOCK DATA</span>
+
                 </div>
             </div>
 
