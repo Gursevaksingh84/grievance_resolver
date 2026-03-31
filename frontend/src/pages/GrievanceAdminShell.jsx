@@ -589,7 +589,20 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
                             {complaint.location && (
                                 <div className="detail-meta-item" style={{ gridColumn: "span 2" }}>
                                     <div className="detail-meta-key"><MapPin size={10} style={{ display: "inline", marginRight: 3 }} />Location</div>
-                                    <div className="detail-meta-val">{complaint.location}</div>
+                                    <div className="detail-meta-val">
+                                        {typeof complaint.location === "object" && complaint.location !== null
+                                            ? [
+                                                complaint.location.address,
+                                                complaint.location.city,
+                                                complaint.location.district,
+                                                complaint.location.state,
+                                                complaint.location.pincode,
+                                                complaint.location.country,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(", ")
+                                            : complaint.location || "N/A"}
+                                    </div>
                                 </div>
                             )}
                         </div>
