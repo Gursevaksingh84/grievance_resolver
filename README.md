@@ -4,7 +4,7 @@ LIVE DEMO ON :- [https://grievanceresolver.vercel.app/login](https://grievance-r
 
 > Multi-agent AI system for autonomously processing citizen complaints in Maharashtra, India
 
-**Built with LangChain + LangGraph + Supabase | Free APIs Only.**
+**Built with LangChain + LangGraph + Supabase | Free APIs Only..**
 
 ## 🎯 Overview
 
