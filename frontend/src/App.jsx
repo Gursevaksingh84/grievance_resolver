@@ -8,7 +8,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import ComplaintStatus from './pages/ComplaintStatus'
-import GrievanceAdminShell from './pages/GrievanceAdminShell' // ← NEW (replaces Dashboard import)
+import GrievanceAdminShell from './pages/GrievanceAdminShell'
+import LandingPage from './pages/LandingPage'
 import Heatmap from './pages/Heatmap'
 import Forums from './pages/Forums'
 import Forum from './pages/Forum'
@@ -32,6 +33,7 @@ function App() {
           <Router>
             <Routes>
               {/* Public route */}
+              <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
 
               {/* All protected routes inside same Layout */}

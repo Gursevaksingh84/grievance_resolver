@@ -17,12 +17,8 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Redirect logged-in users to the app
-  useEffect(() => {
-    if (user) {
-      navigate('/', { replace: true })
-    }
-  }, [user, navigate])
+  // If user is logged in, show a different CTA (go to app instead of login)
+  const isLoggedIn = !!user
 
   const features = [
     {
