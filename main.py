@@ -155,6 +155,7 @@ async def get_complaints_by_email(email: str):
             view["complaint"]["created_at"] = c.get("created_at")
             view["complaint"]["structured_category"] = c.get("structured_category")
             view["complaint"]["location"] = c.get("location")
+            view["complaint"]["attachments"] = c.get("attachments", [])
             formatted.append(view["complaint"])
         return {"success": True, "complaints": formatted, "count": len(formatted)}
     except Exception as e:

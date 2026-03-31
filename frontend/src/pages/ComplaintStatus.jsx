@@ -18,6 +18,8 @@ import {
   ArrowRight,
   Inbox,
   X,
+  Image,
+  Paperclip,
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import Chatbot from "../components/Chatbot";
@@ -44,6 +46,7 @@ const ComplaintStatus = () => {
   const [expandedCard, setExpandedCard] = useState(null);
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   // Fetch user's complaints on mount
   useEffect(() => {
@@ -173,6 +176,30 @@ const ComplaintStatus = () => {
     return text.substring(0, maxLen) + "…";
   };
 
+  // Parse attachments from complaint data
+  const getAttachments = (c) => {
+    const src = c.attachments || c.images || c.imageUrls || [];
+    if (Array.isArray(src)) {
+      return src
+        .map((item) => {
+          if (typeof item === "string") return item;
+          if (item?.url) return item.url;
+          if (item?.src) return item.src;
+          return null;
+        })
+        .filter(Boolean);
+    }
+    if (typeof src === "string") return [src];
+    return [];
+  };
+
+  const URGENCY_COLORS = {
+    low: { bg: "#f0fdf4", color: "#15803d" },
+    medium: { bg: "#eff6ff", color: "#1d4ed8" },
+    high: { bg: "#fff7ed", color: "#c2410c" },
+    urgent: { bg: "#fef2f2", color: "#dc2626" },
+  };
+
   // Detail view component (either selected from my complaints or from search)
   const renderDetailView = (c) => (
     <div className="status-card animate-in">
@@ -229,7 +256,13 @@ const ComplaintStatus = () => {
 
         <div className="detail-card">
           <span className="detail-label">{t("statusUrgency")}</span>
-          <span className={`urgency-badge urgency-${c.urgency}`}>
+          <span
+            className={`urgency-badge urgency-${c.urgency}`}
+            style={{
+              backgroundColor: URGENCY_COLORS[c.urgency]?.bg || "#f1f5f9",
+              color: URGENCY_COLORS[c.urgency]?.color || "#475569",
+            }}
+          >
             {getUrgencyTranslation(c.urgency)}
           </span>
         </div>
@@ -294,6 +327,38 @@ const ComplaintStatus = () => {
             </div>
           </div>
         )}
+
+        {/* Attachments / Images */}
+        {(() => {
+          const imgs = getAttachments(c);
+          return imgs.length > 0 ? (
+            <div className="detail-card" style={{ gridColumn: "1 / -1" }}>
+              <Paperclip size={20} />
+              <div>
+                <span className="detail-label">Attachments ({imgs.length})</span>
+                <div className="complaint-attachments-grid">
+                  {imgs.map((img, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className="complaint-attachment-thumb"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreviewImage(img);
+                      }}
+                    >
+                      <img
+                        src={img}
+                        alt={`Attachment ${idx + 1}`}
+                        onError={(e) => { e.target.style.display = "none"; }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null;
+        })()}
       </div>
 
       <div className="notification-section">
@@ -432,6 +497,26 @@ const ComplaintStatus = () => {
                     {truncateText(c.description, 120)}
                   </p>
 
+                  {/* Card thumbnail if has images */}
+                  {(() => {
+                    const imgs = getAttachments(c);
+                    return imgs.length > 0 ? (
+                      <div className="card-image-preview">
+                        <img
+                          src={imgs[0]}
+                          alt="Complaint"
+                          onError={(e) => { e.target.style.display = "none"; }}
+                        />
+                        {imgs.length > 1 && (
+                          <span className="card-image-count">
+                            <Image size={11} />
+                            +{imgs.length - 1}
+                          </span>
+                        )}
+                      </div>
+                    ) : null;
+                  })()}
+
                   <div className="card-meta-row">
                     {c.current_department && (
                       <span className="card-meta-chip">
@@ -442,6 +527,11 @@ const ComplaintStatus = () => {
                     {c.urgency && (
                       <span
                         className={`card-meta-chip urgency-chip urgency-${c.urgency}`}
+                        style={{
+                          backgroundColor: URGENCY_COLORS[c.urgency]?.bg || "#f1f5f9",
+                          color: URGENCY_COLORS[c.urgency]?.color || "#475569",
+                          borderColor: (URGENCY_COLORS[c.urgency]?.color || "#475569") + "40",
+                        }}
                       >
                         <Shield size={13} />
                         {getUrgencyTranslation(c.urgency)}
@@ -500,6 +590,39 @@ const ComplaintStatus = () => {
             <div className="detail-modal-body">
               {renderDetailView(selectedComplaint)}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Preview Modal */}
+      {previewImage && (
+        <div
+          className="image-preview-overlay"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div
+            className="image-preview-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="image-preview-close"
+              onClick={() => setPreviewImage(null)}
+            >
+              <X size={18} />
+            </button>
+            <img
+              src={previewImage}
+              alt="Complaint attachment preview"
+              className="image-preview-full"
+            />
+            <a
+              href={previewImage}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="image-preview-link"
+            >
+              Open in new tab ↗
+            </a>
           </div>
         </div>
       )}
