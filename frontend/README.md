@@ -30,7 +30,7 @@ The frontend will be available at `http://localhost:3000`
 
 - **File Complaint**: Submit complaints with location picker
 - **Check Status**: Track complaint status using Complaint ID
-- **Dashboard**: View system-wide metrics (admin)
+- **Dashboard**: View system wide metrics (admin)
 - **Notifications**: Email notifications for status updates
 - **Maps Integration**: Interactive map for location selection
 
