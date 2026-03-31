@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
     <div className="layout">
       <header className="header">
         <div className="header-container">
-          <Link to="/" className="logo">
+          <Link to={isAdmin ? '/dashboard' : '/'} className="logo">
             <span className="logo-icon">🏛️</span>
             <div>
               <h1>{t('appName')}</h1>
@@ -46,13 +46,15 @@ const Layout = ({ children }) => {
             </div>
           </Link>
           <nav className="nav">
-            <Link 
-              to="/" 
-              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-            >
-              <Home size={18} />
-              <span>{t('navFileComplaint')}</span>
-            </Link>
+            {!isAdmin && (
+              <Link 
+                to="/" 
+                className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+              >
+                <Home size={18} />
+                <span>{t('navFileComplaint')}</span>
+              </Link>
+            )}
             <Link 
               to="/status" 
               className={`nav-link ${location.pathname.startsWith('/status') ? 'active' : ''}`}
