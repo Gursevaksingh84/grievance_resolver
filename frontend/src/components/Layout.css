@@ -1,9 +1,14 @@
+/* ═══════════════════════════════════════════════════════
+   Layout.css — Grievance Resolver
+   ═══════════════════════════════════════════════════════ */
+
 .layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* ── Header ─────────────────────────────────────────────── */
 .header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -23,6 +28,7 @@
   gap: 1.5rem;
 }
 
+/* ── Logo ───────────────────────────────────────────────── */
 .logo {
   display: flex;
   align-items: center;
@@ -48,6 +54,7 @@
   margin: 0;
 }
 
+/* ── Nav ────────────────────────────────────────────────── */
 .nav {
   display: flex;
   gap: 0.5rem;
@@ -79,6 +86,7 @@
   color: white;
 }
 
+/* ── User menu ──────────────────────────────────────────── */
 .user-menu {
   display: flex;
   align-items: center;
@@ -136,6 +144,7 @@
   color: #dc2626;
 }
 
+/* ── Language selector ──────────────────────────────────── */
 .language-selector-header {
   display: flex;
   align-items: center;
@@ -163,6 +172,7 @@
   color: var(--text-primary);
 }
 
+/* ── Main content ───────────────────────────────────────── */
 .main-content {
   flex: 1;
   max-width: 1200px;
@@ -171,6 +181,23 @@
   padding: 2rem;
 }
 
+/*
+  Admin pages (Dashboard / Complaints) use GrievanceAdminShell which
+  manages its own full-viewport layout — they should NOT be wrapped in
+  <Layout> at all (see routing notes in Layout.jsx).
+
+  If you ever need to render an admin page inside <Layout>, add the
+  modifier class below to <main> and the shell will fill the remaining
+  viewport height edge-to-edge.
+*/
+.main-content--admin {
+  max-width: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
 .footer {
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -185,6 +212,7 @@
   font-size: 0.75rem;
 }
 
+/* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
@@ -200,4 +228,3 @@
     padding: 1rem;
   }
 }
-
