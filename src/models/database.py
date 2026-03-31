@@ -304,6 +304,35 @@ class Database:
             logger.error("Error fetching all complaints", error=str(e))
             return []
     
+    def get_complaints_by_email(
+        self,
+        email: str,
+        limit: int = 100
+    ) -> List[Dict[str, Any]]:
+        """
+        Get complaints filed by a citizen identified by email.
+        
+        Args:
+            email: Citizen email address
+            limit: Maximum number of results
+        
+        Returns:
+            List of complaint records
+        """
+        try:
+            result = (
+                self.client.table("complaints")
+                .select("*")
+                .eq("citizen_email", email)
+                .order("created_at", desc=True)
+                .limit(limit)
+                .execute()
+            )
+            return result.data or []
+        except Exception as e:
+            logger.error("Error fetching complaints by email", email=email, error=str(e))
+            return []
+    
     def get_complaints_breaching_sla(self) -> List[Dict[str, Any]]:
         """
         Get complaints that have breached their SLA deadline.
