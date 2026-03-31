@@ -197,4 +197,3 @@ class AdminController:
         except Exception as e:
             logger.warning("Error getting department breakdown", error=str(e))
             return {}
-

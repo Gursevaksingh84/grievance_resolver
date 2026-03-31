@@ -5,7 +5,6 @@ import { AuthProvider } from './contexts/AuthContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
-import LandingPage from './pages/LandingPage'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import ComplaintStatus from './pages/ComplaintStatus'
@@ -33,11 +32,7 @@ function App() {
         <LanguageProvider>
           <Router>
             <Routes>
-              {/* Public routes — no layout */}
-              <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
-
-              {/* Protected routes — with layout */}
               <Route path="*" element={
                 <Layout>
                   <Routes>
@@ -102,3 +97,4 @@ function App() {
 }
 
 export default App
+
