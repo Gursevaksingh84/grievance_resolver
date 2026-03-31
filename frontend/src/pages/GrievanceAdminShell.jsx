@@ -388,6 +388,104 @@ html, body, #root { height: 100%; }
 .btn-cancel:hover { background: var(--surface-2); }
 .close-warn { font-size: 0.75rem; color: #dc2626; }
 
+.detail-image-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.detail-image-card {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+  cursor: zoom-in;
+  transition: box-shadow .15s ease, transform .15s ease;
+  padding: 0;
+}
+
+.detail-image-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.detail-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-image-open {
+  font-size: 0.75rem;
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.detail-image-open:hover {
+  text-decoration: underline;
+}
+
+.img-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  z-index: 650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.img-preview-panel {
+  position: relative;
+  max-width: 92vw;
+  max-height: 92vh;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.img-preview-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.img-preview-full {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: var(--r-md);
+}
+
+.img-preview-open {
+  align-self: flex-start;
+  font-size: 0.8125rem;
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.img-preview-open:hover {
+  text-decoration: underline;
+}
 /* audit trail */
 .audit-trail { display: flex; flex-direction: column; gap: 0; }
 .audit-entry { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
@@ -653,28 +751,37 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
                         <div className="detail-desc">{complaint.description || "No description provided."}</div>
                     </div>
 
-                    {attachments.length > 0 && (
-                        <div>
-                            <div className="detail-section-title" style={{ marginBottom: "0.625rem" }}>
-                                Attached Images
-                            </div>
+                    {previewImage && (
+                        <div
+                            className="img-preview-overlay"
+                            onClick={() => setPreviewImage(null)}
+                        >
+                            <div
+                                className="img-preview-panel"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <button
+                                    className="img-preview-close"
+                                    onClick={() => setPreviewImage(null)}
+                                    type="button"
+                                >
+                                    <X size={16} />
+                                </button>
 
-                            <div className="detail-images-grid">
-                                {attachments.map((src, index) => (
-                                    <a
-                                        key={index}
-                                        href={src}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="detail-image-card"
-                                    >
-                                        <img
-                                            src={src}
-                                            alt={`Complaint attachment ${index + 1}`}
-                                            className="detail-image"
-                                        />
-                                    </a>
-                                ))}
+                                <img
+                                    src={previewImage}
+                                    alt="Complaint attachment preview"
+                                    className="img-preview-full"
+                                />
+
+                                <a
+                                    href={previewImage}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="img-preview-open"
+                                >
+                                    Open in new tab
+                                </a>
                             </div>
                         </div>
                     )}
