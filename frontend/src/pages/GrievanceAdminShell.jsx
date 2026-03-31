@@ -643,6 +643,7 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
     const [note, setNote] = useState("");
     const [confirmClose, setConfirmClose] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
 
     if (!complaint) return null;
 
