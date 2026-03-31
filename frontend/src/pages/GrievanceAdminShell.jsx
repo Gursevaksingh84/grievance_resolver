@@ -120,6 +120,35 @@ html, body, #root { height: 100%; }
   overflow: visible;
 }
 
+.detail-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.detail-image-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+
+.detail-image-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.detail-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: var(--surface-2);
+}
+
 /* ── Page wrapper ─────────────────────────────────────────────────── */
 .page { padding: 1.75rem 2rem; max-width: 100%; }
 .page-head { margin-bottom: 1.75rem; }
@@ -519,6 +548,16 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
 
     if (!complaint) return null;
 
+    const attachmentsSource =
+        complaint.attachments ||
+        complaint.images ||
+        complaint.image_urls ||
+        [];
+
+    const attachments = Array.isArray(attachmentsSource)
+        ? attachmentsSource.filter(Boolean)
+        : [];
+
     const allowed = ALLOWED_TRANSITIONS[complaint.status] || [];
     const isClosed = complaint.status === "closed";
     const notes = complaint.agent_metadata?.admin_notes || [];
@@ -613,6 +652,32 @@ const ComplaintDetail = ({ complaint, onClose, onStatusChange }) => {
                         <div className="detail-section-title" style={{ marginBottom: "0.625rem" }}>Complaint Description</div>
                         <div className="detail-desc">{complaint.description || "No description provided."}</div>
                     </div>
+
+                    {attachments.length > 0 && (
+                        <div>
+                            <div className="detail-section-title" style={{ marginBottom: "0.625rem" }}>
+                                Attached Images
+                            </div>
+
+                            <div className="detail-images-grid">
+                                {attachments.map((src, index) => (
+                                    <a
+                                        key={index}
+                                        href={src}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="detail-image-card"
+                                    >
+                                        <img
+                                            src={src}
+                                            alt={`Complaint attachment ${index + 1}`}
+                                            className="detail-image"
+                                        />
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* actions */}
                     <div>
