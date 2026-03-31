@@ -692,4 +692,4 @@ This is a hackathon-demo ready system that can be extended for production use. K
 
 ---
 
-**Built for India 🇮🇳 | Powered by AI 🤖**
+**Built for India | Powered by AI 🤖**
