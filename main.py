@@ -135,6 +135,33 @@ async def create_complaint(complaint: ComplaintCreate, background_tasks: Backgro
     return result
 
 
+@app.get("/api/complaints/by-email/{email}")
+async def get_complaints_by_email(email: str):
+    """
+    Get all complaints filed by a citizen email.
+    Returns a list of complaints for the citizen's 'My Complaints' view.
+    """
+    logger.info("Complaints by email requested", email=email)
+    try:
+        from src.models.database import db
+        from src.views.responses import ComplaintStatusView
+        complaints = db.get_complaints_by_email(email)
+        formatted = []
+        for c in complaints:
+            view = ComplaintStatusView.format(c)
+            # Add extra fields useful for card display
+            view["complaint"]["citizen_name"] = c.get("citizen_name")
+            view["complaint"]["citizen_email"] = c.get("citizen_email")
+            view["complaint"]["created_at"] = c.get("created_at")
+            view["complaint"]["structured_category"] = c.get("structured_category")
+            view["complaint"]["location"] = c.get("location")
+            formatted.append(view["complaint"])
+        return {"success": True, "complaints": formatted, "count": len(formatted)}
+    except Exception as e:
+        logger.error("Error fetching complaints by email", error=str(e))
+        return {"success": False, "error": str(e), "complaints": [], "count": 0}
+
+
 @app.get("/api/complaints/{complaint_id}")
 async def get_complaint_status(complaint_id: str):
     """
