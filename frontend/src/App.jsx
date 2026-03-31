@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard'
 import Heatmap from './pages/Heatmap'
 import Forums from './pages/Forums'
 import Forum from './pages/Forum'
+import LandingPage from './pages/LandingPage'
 import Chatbot from './components/Chatbot'
 import './App.css'
 
@@ -32,6 +33,7 @@ function App() {
         <LanguageProvider>
           <Router>
             <Routes>
+              <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="*" element={
                 <Layout>

@@ -495,6 +495,18 @@ class ComplaintWorkflow:
             "department_name": "",
             "sla_deadline": "",
             "sla_hours": 0,
+            # Sentiment analysis fields
+            "sentiment_score": 0.0,
+            "emotion_level": "calm",
+            "urgency_boost": 0.0,
+            "priority_recommendation": "normal",
+            # Policy intelligence fields
+            "applicable_policies": [],
+            "legal_sla": {},
+            "policy_violation": False,
+            "policy_reference": "",
+            "suggested_action": "",
+            # Status fields
             "status": ComplaintStatus.OPEN.value,
             "escalation_level": EscalationLevel.NONE.value,
             "citizen_message": "",
