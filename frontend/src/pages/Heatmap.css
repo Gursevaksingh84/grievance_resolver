@@ -191,7 +191,8 @@
 
 .stat-label {
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  /* Use a stronger color for better readability on light backgrounds */
+  color: var(--text-primary);
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -199,6 +200,7 @@
 .stat-value {
   font-size: 1rem;
   font-weight: 700;
+  /* Ensure values also have sufficient contrast */
   color: var(--text-primary);
 }
 
