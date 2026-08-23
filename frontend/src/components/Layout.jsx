@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
       <header className="header">
         <div className="header-container">
           {/* Logo */}
-          <Link to={isAdmin ? '/dashboard' : '/'} className="logo">
+          <Link to={isAdmin ? '/dashboard' : '/home'} className="logo">
             <span className="logo-icon">🏛️</span>
             <div>
               <h1>{t('appName')}</h1>
@@ -53,8 +53,8 @@ const Layout = ({ children }) => {
             {/* ── Citizen-only links ──────────────────────────── */}
             {!isAdmin && (
               <Link
-                to="/"
-                className={`nav-link ${isActive('/', true) ? 'active' : ''}`}
+                to="/home"
+                className={`nav-link ${isActive('/home', true) ? 'active' : ''}`}
               >
                 <Home size={18} />
                 <span>{t('navFileComplaint')}</span>

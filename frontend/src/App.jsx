@@ -32,7 +32,8 @@ function App() {
         <LanguageProvider>
           <Router>
             <Routes>
-              {/* Public route */}
+              {/* Public routes — the landing page stays reachable when signed in */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
 
@@ -43,7 +44,7 @@ function App() {
                   <Layout>
                     <Routes>
                       <Route
-                        path="/"
+                        path="/home"
                         element={
                           <ProtectedRoute>
                             <Home />

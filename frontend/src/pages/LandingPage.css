@@ -124,6 +124,40 @@
   transform: translateY(-1px);
 }
 
+.nav-btn--profile {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  padding: 0.4rem 0.85rem 0.4rem 0.4rem;
+  max-width: 15rem;
+}
+
+.nav-btn--profile:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+.nav-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nav-profile-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ---------- HERO SECTION ---------- */
 .hero-section {
   position: relative;

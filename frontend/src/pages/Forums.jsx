@@ -125,7 +125,7 @@ const Forums = () => {
             {t("noTrendingComplaintsDesc") ||
               "Be the first to start a discussion! File a complaint to get started."}
           </p>
-          <Link to="/" className="btn btn-primary">
+          <Link to="/home" className="btn btn-primary">
             {t("fileComplaint") || "File a Complaint"}
           </Link>
         </div>

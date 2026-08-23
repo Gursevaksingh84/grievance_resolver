@@ -25,11 +25,11 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
   }
 
   if (!user) {
-    return <Navigate to="/landing" state={{ from: location }} replace />
+    return <Navigate to="/" state={{ from: location }} replace />
   }
 
   if (requireAdmin && !isAdmin) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/home" replace />
   }
 
   return children

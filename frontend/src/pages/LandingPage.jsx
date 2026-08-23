@@ -10,6 +10,7 @@ const LandingPage = () => {
   const navigate = useNavigate()
   const auth = useAuth()
   const user = auth?.user
+  const isAdmin = auth?.isAdmin || false
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -17,8 +18,12 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // If user is logged in, show a different CTA (go to app instead of login)
+  // Signed-in visitors get a profile button and CTAs that jump straight into the app
   const isLoggedIn = !!user
+  const appHome = isAdmin ? '/dashboard' : '/home'
+  const ctaTarget = isLoggedIn ? appHome : '/login'
+  const profileLabel = user?.email || 'My Account'
+  const profileInitial = (user?.email || '?').charAt(0).toUpperCase()
 
   const features = [
     {
@@ -103,10 +108,19 @@ const LandingPage = () => {
         </div>
 
         <div className="nav-actions">
-          <Link to="/login" className="nav-btn nav-btn--ghost">Log In</Link>
-          <Link to="/login" className="nav-btn nav-btn--primary">
-            Get Started <ArrowRight size={15} />
-          </Link>
+          {isLoggedIn ? (
+            <Link to={appHome} className="nav-btn nav-btn--profile" title={profileLabel}>
+              <span className="nav-avatar">{profileInitial}</span>
+              <span className="nav-profile-email">{profileLabel}</span>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="nav-btn nav-btn--ghost">Log In</Link>
+              <Link to="/login" className="nav-btn nav-btn--primary">
+                Get Started <ArrowRight size={15} />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -124,10 +138,19 @@ const LandingPage = () => {
             <a href="#how-it-works" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>How It Works</a>
             <a href="#agents" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>AI Agents</a>
             <div className="mobile-actions">
-              <Link to="/login" className="nav-btn nav-btn--ghost" onClick={() => setIsMobileMenuOpen(false)}>Log In</Link>
-              <Link to="/login" className="nav-btn nav-btn--primary" onClick={() => setIsMobileMenuOpen(false)}>
-                Get Started
-              </Link>
+              {isLoggedIn ? (
+                <Link to={appHome} className="nav-btn nav-btn--profile" onClick={() => setIsMobileMenuOpen(false)}>
+                  <span className="nav-avatar">{profileInitial}</span>
+                  <span className="nav-profile-email">{profileLabel}</span>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login" className="nav-btn nav-btn--ghost" onClick={() => setIsMobileMenuOpen(false)}>Log In</Link>
+                  <Link to="/login" className="nav-btn nav-btn--primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -156,7 +179,7 @@ const LandingPage = () => {
           </p>
 
           <div className="hero-cta-group">
-            <Link to="/login" className="hero-btn hero-btn--primary">
+            <Link to={ctaTarget} className="hero-btn hero-btn--primary">
               File a Complaint <ArrowRight size={17} />
             </Link>
             <a href="#how-it-works" className="hero-btn hero-btn--secondary">
@@ -301,8 +324,8 @@ const LandingPage = () => {
           <p>
             Join citizens who trust our AI-powered system to resolve their complaints faster and more efficiently.
           </p>
-          <Link to="/login" className="hero-btn hero-btn--primary">
-            Get Started Now <ArrowRight size={17} />
+          <Link to={ctaTarget} className="hero-btn hero-btn--primary">
+            {isLoggedIn ? 'Continue to App' : 'Get Started Now'} <ArrowRight size={17} />
           </Link>
         </div>
       </section>
@@ -319,7 +342,7 @@ const LandingPage = () => {
             <a href="#features" className="footer-link">Features</a>
             <a href="#how-it-works" className="footer-link">How It Works</a>
             <a href="#agents" className="footer-link">AI Agents</a>
-            <Link to="/login" className="footer-link">Login</Link>
+            <Link to={ctaTarget} className="footer-link">{isLoggedIn ? 'My Account' : 'Login'}</Link>
           </div>
           <div className="footer-divider" />
           <div className="footer-bottom">
